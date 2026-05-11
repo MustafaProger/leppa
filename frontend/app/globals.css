@@ -1,26 +1,230 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+	--app-font-sans:
+		-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+		"Segoe UI", Arial, Helvetica, sans-serif;
+
+	--app-font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+
+	/* Base */
+	--background: rgba(255, 255, 255, 1);
+	--foreground: rgba(22, 22, 23, 1);
+
+	/* Cards */
+	--card: rgba(255, 255, 255, 0.82);
+	--card-foreground: rgba(22, 22, 23, 1);
+
+	/* Popovers */
+	--popover: rgba(255, 255, 255, 0.92);
+	--popover-foreground: rgba(22, 22, 23, 1);
+
+	/* Primary */
+	--primary: rgba(22, 22, 23, 1);
+	--primary-foreground: rgba(255, 255, 255, 1);
+
+	/* Secondary */
+	--secondary: rgba(245, 245, 247, 1);
+	--secondary-foreground: rgba(22, 22, 23, 1);
+
+	/* Muted */
+	--muted: rgba(245, 245, 247, 1);
+	--muted-foreground: rgba(110, 110, 115, 1);
+
+	/* Accent */
+	--accent: rgba(245, 245, 247, 1);
+	--accent-foreground: rgba(22, 22, 23, 1);
+
+	/* Borders */
+	--border: rgba(0, 0, 0, 0.08);
+	--input: rgba(0, 0, 0, 0.08);
+	--ring: rgba(0, 0, 0, 0.14);
+
+	/* Destructive */
+	--destructive: rgba(255, 59, 48, 1);
+
+	/* Charts */
+	--chart-1: rgba(28, 28, 30, 1);
+	--chart-2: rgba(72, 72, 74, 1);
+	--chart-3: rgba(99, 99, 102, 1);
+	--chart-4: rgba(142, 142, 147, 1);
+	--chart-5: rgba(174, 174, 178, 1);
+
+	/* Radius */
+	--radius: 28px;
+
+	/* Sidebar */
+	--sidebar: rgba(255, 255, 255, 0.92);
+	--sidebar-foreground: rgba(22, 22, 23, 1);
+	--sidebar-primary: rgba(22, 22, 23, 1);
+	--sidebar-primary-foreground: rgba(255, 255, 255, 1);
+	--sidebar-accent: rgba(245, 245, 247, 1);
+	--sidebar-accent-foreground: rgba(22, 22, 23, 1);
+	--sidebar-border: rgba(0, 0, 0, 0.06);
+	--sidebar-ring: rgba(0, 0, 0, 0.14);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+
+	--font-sans: var(--app-font-sans);
+	--font-mono: var(--app-font-mono);
+	--font-heading: var(--app-font-sans);
+
+	--color-card: var(--card);
+	--color-card-foreground: var(--card-foreground);
+
+	--color-popover: var(--popover);
+	--color-popover-foreground: var(--popover-foreground);
+
+	--color-primary: var(--primary);
+	--color-primary-foreground: var(--primary-foreground);
+
+	--color-secondary: var(--secondary);
+	--color-secondary-foreground: var(--secondary-foreground);
+
+	--color-muted: var(--muted);
+	--color-muted-foreground: var(--muted-foreground);
+
+	--color-accent: var(--accent);
+	--color-accent-foreground: var(--accent-foreground);
+
+	--color-border: var(--border);
+	--color-input: var(--input);
+	--color-ring: var(--ring);
+
+	--color-destructive: var(--destructive);
+
+	--color-chart-1: var(--chart-1);
+	--color-chart-2: var(--chart-2);
+	--color-chart-3: var(--chart-3);
+	--color-chart-4: var(--chart-4);
+	--color-chart-5: var(--chart-5);
+
+	--color-sidebar: var(--sidebar);
+	--color-sidebar-foreground: var(--sidebar-foreground);
+	--color-sidebar-primary: var(--sidebar-primary);
+	--color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+	--color-sidebar-accent: var(--sidebar-accent);
+	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+	--color-sidebar-border: var(--sidebar-border);
+	--color-sidebar-ring: var(--sidebar-ring);
+
+	/* Radius */
+	--radius-sm: calc(var(--radius) * 0.45);
+	--radius-md: calc(var(--radius) * 0.7);
+	--radius-lg: var(--radius);
+	--radius-xl: calc(var(--radius) * 1.2);
+	--radius-2xl: calc(var(--radius) * 1.5);
+	--radius-3xl: calc(var(--radius) * 1.8);
+	--radius-4xl: calc(var(--radius) * 2.1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* =========================
+   Base
+========================= */
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	scrollbar-width: none;
+	background: var(--background);
+	scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+	font-family: var(--app-font-sans);
+	background: var(--background);
+	color: var(--foreground);
+
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizeLegibility;
+}
+
+/* Typography */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: 600;
+	letter-spacing: -0.04em;
+}
+
+/* Interactive */
+
+button,
+a,
+input,
+textarea {
+	font: inherit;
+}
+
+button,
+a {
+	transition:
+		opacity 0.2s ease,
+		transform 0.2s ease,
+		background-color 0.2s ease,
+		border-color 0.2s ease;
+}
+
+a:hover,
+button:hover {
+	opacity: 0.82;
+}
+
+/* Images */
+
+img {
+	user-select: none;
+	-webkit-user-drag: none;
+}
+
+/* Selection */
+
+::selection {
+	background: rgba(0, 122, 255, 0.14);
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+	background: rgba(0, 0, 0, 0.12);
+	border-radius: 999px;
+}
+
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+/* =========================
+   Keep light theme always
+========================= */
+
+@layer base {
+	* {
+		@apply border-border outline-ring/40;
+	}
+
+	html {
+		@apply font-sans;
+	}
+
+	body {
+		@apply bg-background text-foreground;
+	}
 }
