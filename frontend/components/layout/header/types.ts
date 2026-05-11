@@ -1,12 +1,8 @@
 export type MenuName =
-	| "design"
-	| "dev"
-	| "learning"
-	| "community"
-	| "resources"
-	| "tools"
-	| "services"
-	| "company"
+	| "catalog"
+	| "hits"
+	| "new"
+	| "reviews"
 	| null;
 
 export interface NavigationMenuContentProps {

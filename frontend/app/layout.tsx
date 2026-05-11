@@ -21,7 +21,7 @@ export default function RootLayout({
 			<body className='min-h-full min-w-80 bg-background text-foreground antialiased'>
 				{/* <div className='px-3 sm:px-5'> */}
 				<Header />
-				<main className='pt-11'>{children}</main>
+				<main>{children}</main>
 				{/* </div> */}
 			</body>
 		</html>
