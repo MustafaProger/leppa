@@ -39,15 +39,20 @@ export function AboutDesktopSlider({
 }: AboutDesktopSliderProps) {
 	return (
 		<div className='mx-auto w-full max-w-5xl'>
-			<div className='grid w-full grid-cols-1 gap-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-start md:gap-12 lg:gap-16'>
+			<div className='grid w-full grid-cols-1 gap-8 md:grid-cols-[minmax(0,1fr)_auto] items-center justify-center md:gap-12 lg:gap-16'>
 				<div className='relative z-0 grid min-w-0 auto-rows-auto'>
 					<AnimatePresence
 						mode='wait'
-						custom={direction}>
+						custom={direction}
+						initial={false}>
 						<motion.article
 							key={activeSubsection.id}
 							custom={direction}
 							variants={{
+								enter: (slideDirection: number) => ({
+									opacity: 0,
+									y: slideDirection > 0 ? 28 : -28,
+								}),
 								center: {
 									opacity: 1,
 									y: 0,
@@ -57,7 +62,7 @@ export function AboutDesktopSlider({
 									y: slideDirection > 0 ? -28 : 28,
 								}),
 							}}
-							initial={false}
+							initial='enter'
 							animate='center'
 							exit='exit'
 							transition={{
@@ -90,7 +95,7 @@ export function AboutDesktopSlider({
 					</AnimatePresence>
 				</div>
 
-				<div className='relative z-10 flex items-center justify-center gap-4 md:flex-col md:items-center'>
+				<div className='relative z-10 flex items-center justify-center gap-4 md:flex-col'>
 					<AboutSlideIndicator
 						activeIndex={activeIndex}
 						slideCount={slideCount}
