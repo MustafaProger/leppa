@@ -1,4 +1,4 @@
-import { AboutUsSection } from "../sections/about-us-section";
+import { AboutUsSection } from "../sections/about-us";
 import { Button } from "../ui/button";
 
 export function HomePage() {

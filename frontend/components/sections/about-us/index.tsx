@@ -7,34 +7,17 @@ import {
   useRef,
   useState,
 } from "react";
-import {
-  AnimatePresence,
-  motion,
-  useInView,
-  useReducedMotion,
-} from "framer-motion";
+import { useInView, useReducedMotion } from "framer-motion";
 
-import contentBlocks from "@/data/contentBlocks.json";
-import { cn } from "@/lib/utils";
-
-type ContentBlock = {
-  id: string;
-  title: string;
-  body: string;
-  seo_keywords?: string[];
-  order: number;
-};
-
-type ScrollOptions = {
-  immediate?: boolean;
-};
-
-const slides = [...(contentBlocks as ContentBlock[])]
-  .sort((a, b) => a.order - b.order)
-  .slice(0, 4);
+import { AboutDesktopNavigation } from "./about-desktop-navigation";
+import { AboutDesktopSlider } from "./about-desktop-slider";
+import { AboutMobileSlider } from "./about-mobile-slider";
+import { aboutSubsections } from "./data";
+import type { ScrollOptions } from "./types";
 
 const DESKTOP_MEDIA_QUERY = "(min-width: 768px)";
 const SLIDE_SCROLL_TOP_OFFSET = 50;
+const ABOUT_TITLE_ID = "about-title";
 
 const clampIndex = (value: number, maxIndex: number) => {
   return Math.min(Math.max(value, 0), Math.max(maxIndex, 0));
@@ -46,132 +29,6 @@ const isDesktopViewport = () => {
     window.matchMedia(DESKTOP_MEDIA_QUERY).matches
   );
 };
-
-type SlideContentProps = {
-  slide: ContentBlock;
-  titleId?: string;
-};
-
-function SlideContent({ slide, titleId }: SlideContentProps) {
-  return (
-    <>
-      <h2
-        id={titleId}
-        className="max-w-4xl text-2xl font-semibold leading-[0.98] tracking-[-0.055em] text-zinc-950 sm:text-3xl lg:text-5xl"
-      >
-        {slide.title}
-      </h2>
-
-      <p className="mt-6 max-w-3xl text-sm text-zinc-700 sm:mt-7 sm:text-base lg:text-lg">
-        {slide.body}
-      </p>
-
-      {slide.seo_keywords?.length ? (
-        <div className="mt-7 flex max-w-3xl flex-wrap gap-2 sm:mt-8">
-          {slide.seo_keywords.map((keyword) => (
-            <span
-              key={`${slide.id}-${keyword}`}
-              className="rounded-full border border-zinc-950/15 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-zinc-700 sm:text-xs sm:tracking-[0.18em]"
-            >
-              {keyword}
-            </span>
-          ))}
-        </div>
-      ) : null}
-    </>
-  );
-}
-
-type SlideDotsProps = {
-  activeIndex: number;
-  onSelect: (index: number) => void;
-};
-
-function SlideDots({ activeIndex, onSelect }: SlideDotsProps) {
-  return (
-    <>
-      {slides.map((slide, index) => {
-        const isActive = index === activeIndex;
-
-        return (
-          <button
-            key={slide.id}
-            type="button"
-            aria-label={`Show about slide ${index + 1}`}
-            aria-current={isActive ? "step" : undefined}
-            onClick={() => onSelect(index)}
-            className="group flex h-auto w-auto items-center justify-center rounded-full py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2 md:h-auto md:w-auto"
-          >
-            <motion.span
-              layout
-              transition={{
-                type: "spring",
-                stiffness: 420,
-                damping: 32,
-              }}
-              className={cn(
-                "block rounded-full transition-colors duration-300",
-                isActive
-                  ? "h-2 w-8 bg-zinc-950 md:h-8 md:w-2"
-                  : "h-2 w-2 bg-zinc-950/25 group-hover:bg-zinc-950/45",
-              )}
-            />
-          </button>
-        );
-      })}
-    </>
-  );
-}
-
-type SlideIndicatorProps = {
-  activeIndex: number;
-  slideCount: number;
-  prefersReducedMotion: boolean;
-  className?: string;
-};
-
-function SlideIndicator({
-  activeIndex,
-  slideCount,
-  prefersReducedMotion,
-  className,
-}: SlideIndicatorProps) {
-  const visualLabel = `${activeIndex + 1}/${slideCount}`;
-
-  return (
-    <div
-      aria-live="polite"
-      aria-atomic="true"
-      className={cn(
-        "mb-5 flex justify-end text-[11px] font-medium leading-none tracking-[0.22em] text-zinc-500 sm:text-xs",
-        className,
-      )}
-    >
-      <span className="sr-only">
-        {`Slide ${activeIndex + 1} of ${slideCount}`}
-      </span>
-      <span
-        aria-hidden="true"
-        className="relative inline-flex min-w-9 justify-end overflow-hidden py-1 tabular-nums"
-      >
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.span
-            key={visualLabel}
-            initial={{ opacity: 0, y: 7 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -7 }}
-            transition={{
-              duration: prefersReducedMotion ? 0 : 0.2,
-              ease: "easeOut",
-            }}
-          >
-            {visualLabel}
-          </motion.span>
-        </AnimatePresence>
-      </span>
-    </div>
-  );
-}
 
 export function AboutUsSection() {
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -192,8 +49,8 @@ export function AboutUsSection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState(1);
 
-  const slideCount = slides.length;
-  const activeSlide = slides[activeIndex];
+  const slideCount = aboutSubsections.length;
+  const activeSubsection = aboutSubsections[activeIndex];
 
   useEffect(() => {
     activeIndexRef.current = activeIndex;
@@ -531,7 +388,7 @@ export function AboutUsSection() {
     };
   }, []);
 
-  if (!activeSlide) {
+  if (!activeSubsection) {
     return null;
   }
 
@@ -543,7 +400,7 @@ export function AboutUsSection() {
     <section
       ref={sectionRef}
       id="about"
-      aria-labelledby="about-title"
+      aria-labelledby={ABOUT_TITLE_ID}
       className="relative bg-white text-zinc-950 md:min-h-(--about-section-height)"
       style={sectionStyle}
     >
@@ -551,117 +408,33 @@ export function AboutUsSection() {
         ref={stickyPanelRef}
         className="relative border-y border-zinc-950/10 bg-white px-5 py-8 sm:px-8 sm:py-10 md:sticky md:top-0 md:flex md:h-screen md:min-h-160 md:items-center md:overflow-hidden lg:px-14"
       >
-        <div className="mx-auto w-full max-w-5xl py-2 md:hidden">
-          <div ref={mobileSlideStartRef} className="scroll-mt-5">
-            <SlideIndicator
-              activeIndex={activeIndex}
-              slideCount={slideCount}
-              prefersReducedMotion={prefersReducedMotion}
-            />
-          </div>
+        <AboutMobileSlider
+          activeIndex={activeIndex}
+          activeSubsection={activeSubsection}
+          direction={direction}
+          prefersReducedMotion={prefersReducedMotion}
+          slideCount={slideCount}
+          subsections={aboutSubsections}
+          slideStartRef={mobileSlideStartRef}
+          onSelect={selectMobileSlide}
+        />
 
-          <AnimatePresence mode="wait" custom={direction}>
-            <motion.article
-              key={activeSlide.id}
-              custom={direction}
-              variants={{
-                enter: (slideDirection: number) => ({
-                  opacity: 0,
-                  y: slideDirection > 0 ? 24 : -24,
-                }),
-                center: {
-                  opacity: 1,
-                  y: 0,
-                },
-                exit: (slideDirection: number) => ({
-                  opacity: 0,
-                  y: slideDirection > 0 ? -20 : 20,
-                }),
-              }}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{
-                duration: prefersReducedMotion ? 0 : 0.36,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-            >
-              <SlideContent slide={activeSlide} />
-            </motion.article>
-          </AnimatePresence>
+        <AboutDesktopSlider
+          activeIndex={activeIndex}
+          activeSubsection={activeSubsection}
+          direction={direction}
+          prefersReducedMotion={prefersReducedMotion}
+          slideCount={slideCount}
+          slideStartRef={desktopSlideStartRef}
+          titleId={ABOUT_TITLE_ID}
+        />
 
-          <nav
-            aria-label="About section slides"
-            className="mx-auto mt-8 flex w-fit items-center gap-2 rounded-full border border-zinc-950/10 bg-white/90 p-3 shadow-[0_18px_60px_rgba(0,0,0,0.08)] backdrop-blur"
-          >
-            <SlideDots activeIndex={activeIndex} onSelect={selectMobileSlide} />
-          </nav>
-        </div>
-
-        <motion.div
-          initial={prefersReducedMotion ? false : { opacity: 0, y: 28 }}
-          whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-          className="mx-auto hidden w-full max-w-5xl md:block"
-        >
-          <div ref={desktopSlideStartRef} className="scroll-mt-6">
-            <SlideIndicator
-              activeIndex={activeIndex}
-              slideCount={slideCount}
-              prefersReducedMotion={prefersReducedMotion}
-              className="mb-8 text-xs"
-            />
-          </div>
-
-          <div className="relative min-h-105 md:min-h-130">
-            <AnimatePresence mode="wait" custom={direction}>
-              <motion.article
-                key={activeSlide.id}
-                custom={direction}
-                variants={{
-                  enter: (slideDirection: number) => ({
-                    opacity: 0,
-                    y: slideDirection > 0 ? 34 : -34,
-                  }),
-                  center: {
-                    opacity: 1,
-                    y: 0,
-                  },
-                  exit: (slideDirection: number) => ({
-                    opacity: 0,
-                    y: slideDirection > 0 ? -28 : 28,
-                  }),
-                }}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{
-                  duration: prefersReducedMotion ? 0 : 0.46,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-                className="absolute inset-0 flex flex-col justify-center"
-              >
-                <SlideContent slide={activeSlide} titleId="about-title" />
-              </motion.article>
-            </AnimatePresence>
-          </div>
-        </motion.div>
-
-        <AnimatePresence>
-          {areDotsVisible ? (
-            <motion.nav
-              aria-label="About section slides"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 12 }}
-              transition={{ duration: 0.22, ease: "easeOut" }}
-              className="absolute bottom-6 left-1/2 z-20 hidden -translate-x-1/2 items-center gap-2 rounded-full border border-zinc-950/10 bg-white/85 p-3 shadow-[0_18px_60px_rgba(0,0,0,0.08)] backdrop-blur md:bottom-auto md:left-auto md:right-8 md:top-1/2 md:flex md:-translate-y-1/2 md:translate-x-0 md:flex-col"
-            >
-              <SlideDots activeIndex={activeIndex} onSelect={scrollToSlide} />
-            </motion.nav>
-          ) : null}
-        </AnimatePresence>
+        <AboutDesktopNavigation
+          activeIndex={activeIndex}
+          isVisible={areDotsVisible}
+          subsections={aboutSubsections}
+          onSelect={scrollToSlide}
+        />
       </div>
     </section>
   );
