@@ -79,7 +79,7 @@ export function AboutUsSection() {
       aria-labelledby={ABOUT_TITLE_ID}
       className="relative bg-white text-zinc-950"
     >
-      <div className="relative border-y border-zinc-950/10 bg-white px-5 py-8 sm:px-8 sm:py-10 md:flex md:min-h-screen md:items-center md:overflow-hidden lg:px-14">
+      <div className="relative border-y border-zinc-950/10 bg-white px-5 py-8 sm:px-8 sm:py-10 md:flex md:min-h-[calc(100vh-200px)] md:items-center md:overflow-hidden lg:px-14">
 
         <AboutDesktopSlider
           activeIndex={activeIndex}
