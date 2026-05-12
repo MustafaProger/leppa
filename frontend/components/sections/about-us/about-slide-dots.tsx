@@ -8,7 +8,7 @@ type AboutSlideDotsProps = {
   activeIndex: number;
   subsections: AboutSubsection[];
   onSelect?: (index: number) => void;
-  orientation?: "responsive" | "horizontal";
+  orientation?: "responsive" | "horizontal" | "vertical";
   isInteractive?: boolean;
 };
 
