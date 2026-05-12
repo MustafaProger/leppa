@@ -3,8 +3,8 @@ import { Button } from "../ui/button";
 
 export function HomePage() {
   return (
-    <div className="relative w-full min-h-screen bg-white text-zinc-950">
-      <section className="relative flex h-screen w-full items-center justify-center overflow-hidden">
+    <div className="relative flex min-h-dvh w-full flex-1 flex-col bg-white text-zinc-950">
+      <section className="relative flex min-h-dvh w-full flex-1 items-center justify-center overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
@@ -32,7 +32,7 @@ export function HomePage() {
           </div>
         </div>
       </section>
-      <AboutUsSection />
+      {/* <AboutUsSection /> */}
     </div>
   );
 }

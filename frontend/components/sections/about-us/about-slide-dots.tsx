@@ -1,3 +1,5 @@
+"use client";
+
 import { motion } from "framer-motion";
 
 import { cn } from "@/lib/utils";
@@ -33,7 +35,7 @@ export function AboutSlideDots({
               damping: 32,
             }}
             className={cn(
-              "block rounded-full transition-colors duration-300",
+              "pointer-events-none block rounded-full transition-colors duration-300",
               isActive
                 ? cn(
                     "h-2 w-8 md:h-8 md:w-2 bg-zinc-950",

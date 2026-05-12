@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { usePathname } from "next/navigation";
 import { ShoppingBag, SearchIcon, Heart, Menu, X } from "lucide-react";
 
@@ -12,6 +13,7 @@ const DESKTOP_MEDIA_QUERY = "(min-width: 768px)";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const activePage = pathname === "/" ? "" : pathname.replace("/", "");
 
@@ -23,6 +25,10 @@ const Header = () => {
     // Close menu immediately when navigating
     setIsOpen(false);
   };
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     document.body.classList.toggle(BODY_OVERLAY_CLASS, isOpen);
@@ -66,7 +72,7 @@ const Header = () => {
   }, [isOpen]);
 
   return (
-    <header className="fixed top-4 left-1/2 z-50 w-full max-w-5xl -translate-x-1/2 px-4">
+    <header className="fixed top-4 left-1/2 z-50 w-full max-w-5xl -translate-x-1/2 px-4 isolate">
       <div className="grid w-full grid-cols-[minmax(0,auto)_minmax(0,1fr)] items-center gap-3 rounded-full border border-zinc-950/10 bg-zinc-100 px-5 py-2 shadow-header md:grid-cols-[minmax(0,auto)_minmax(0,1fr)_minmax(0,auto)] md:gap-4 md:px-6">
         {/* Logo on left */}
         <Link
@@ -139,34 +145,48 @@ const Header = () => {
               )}
             </button>
 
-            <div
-              id="mobile-navigation-menu"
-              className={`fixed top-14 left-1/2 z-50 w-full max-w-5xl -translate-x-1/2 px-4 transition-all duration-300 ${
-                isOpen ? "visible opacity-100" : "invisible opacity-0"
-              }`}
-            >
-              <div className="menu-content rounded-3xl border border-zinc-950/10 bg-zinc-100 px-6 py-3 shadow-surface-lg transition-all duration-300">
-                <nav className="flex flex-col space-y-2">
-                  {NAV_ITEMS.map((item) => {
-                    const isActive = activePage === item.href.replace("/", "");
-                    return (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        onClick={handleNavClick}
-                        className={`w-full rounded-full px-4 py-2 text-center text-sm font-medium transition-colors duration-300 ${
-                          isActive
-                            ? "bg-zinc-950 text-white shadow-control"
-                            : "text-zinc-700 hover:bg-zinc-950 hover:text-white"
-                        }`}
-                      >
-                        {item.label}
-                      </Link>
-                    );
-                  })}
-                </nav>
-              </div>
-            </div>
+            {mounted && isOpen
+              ? createPortal(
+                  <>
+                    <button
+                      type="button"
+                      aria-label="Закрыть меню"
+                      className="fixed inset-0 z-40 cursor-default bg-black/20"
+                      onClick={() => handleOpenChange(false)}
+                    />
+                    <div
+                      id="mobile-navigation-menu"
+                      role="dialog"
+                      aria-modal="true"
+                      className="pointer-events-none fixed left-1/2 top-14 z-100 w-full max-w-5xl -translate-x-1/2 px-4"
+                    >
+                      <div className="menu-content pointer-events-auto rounded-3xl border border-zinc-950/10 bg-zinc-100 px-6 py-3 shadow-surface-lg">
+                        <nav className="flex flex-col space-y-2">
+                          {NAV_ITEMS.map((item) => {
+                            const isActive =
+                              activePage === item.href.replace("/", "");
+                            return (
+                              <Link
+                                key={item.href}
+                                href={item.href}
+                                onClick={handleNavClick}
+                                className={`w-full rounded-full px-4 py-2 text-center text-sm font-medium transition-colors duration-300 ${
+                                  isActive
+                                    ? "bg-zinc-950 text-white shadow-control"
+                                    : "text-zinc-700 hover:bg-zinc-950 hover:text-white"
+                                }`}
+                              >
+                                {item.label}
+                              </Link>
+                            );
+                          })}
+                        </nav>
+                      </div>
+                    </div>
+                  </>,
+                  document.body,
+                )
+              : null}
           </div>
         </div>
       </div>
