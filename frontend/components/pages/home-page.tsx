@@ -32,7 +32,7 @@ export function HomePage() {
           </div>
         </div>
       </section>
-      {/* <AboutUsSection /> */}
+      <AboutUsSection />
     </div>
   );
 }
