@@ -200,6 +200,21 @@ export function AboutUsSection() {
     ],
   );
 
+  const navigateMobileSlide = useCallback(
+    (step: 1 | -1) => {
+      const currentIndex = activeIndexRef.current;
+      const nextIndex =
+        (currentIndex + step + slideCount) % Math.max(slideCount, 1);
+      const behavior: ScrollBehavior = prefersReducedMotion ? "auto" : "smooth";
+
+      setDirection(step);
+      activeIndexRef.current = nextIndex;
+      setActiveIndex(nextIndex);
+      queueMobileSlideStartScroll(behavior);
+    },
+    [prefersReducedMotion, queueMobileSlideStartScroll, slideCount],
+  );
+
   useEffect(() => {
     if (slideCount <= 1) {
       return;
@@ -417,6 +432,8 @@ export function AboutUsSection() {
           subsections={aboutSubsections}
           slideStartRef={mobileSlideStartRef}
           onSelect={selectMobileSlide}
+          onPrevious={() => navigateMobileSlide(-1)}
+          onNext={() => navigateMobileSlide(1)}
         />
 
         <AboutDesktopSlider
