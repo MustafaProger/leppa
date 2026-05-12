@@ -45,7 +45,7 @@ export function AboutSlideIndicator({
     >
       <span
         aria-hidden="true"
-        className="flex md:flex-col flex-nowrap items-center whitespace-nowrap rounded-full border border-zinc-950/10 bg-white/90 text-zinc-950 shadow-[0_14px_40px_rgba(0,0,0,0.08)] backdrop-blur px-4 md:py-3 py-2.5"
+        className="flex flex-nowrap items-center whitespace-nowrap rounded-full border border-zinc-950/10 bg-zinc-50/90 px-4 py-2.5 text-zinc-950 shadow-surface-md backdrop-blur md:flex-col md:py-3"
       >
         <span className="relative inline-flex justify-end overflow-hidden tabular-nums text-base font-semibold tracking-[-0.04em] sm:text-lg">
           <AnimatePresence mode="wait" initial={false}>

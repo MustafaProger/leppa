@@ -38,8 +38,8 @@ export function AboutDesktopSlider({
       transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
       className="mx-auto w-full max-w-5xl"
     >
-      <div className="grid min-h-105 gap-8 md:min-h-130 md:grid-cols-[minmax(0,1fr)_auto] md:items-start md:gap-12 lg:gap-16">
-        <div className="relative min-h-78 md:min-h-96">
+      <div className="grid w-full grid-cols-1 gap-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-start md:gap-12 lg:gap-16">
+        <div className="grid min-w-0 auto-rows-auto">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.article
               key={activeSubsection.id}
@@ -65,7 +65,7 @@ export function AboutDesktopSlider({
                 duration: prefersReducedMotion ? 0 : 0.46,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="absolute inset-0 flex flex-col"
+              className="col-start-1 row-start-1 flex min-w-0 flex-col"
             >
               <h2
                 id={titleId}
@@ -94,7 +94,7 @@ export function AboutDesktopSlider({
           </AnimatePresence>
         </div>
 
-        <div className="mb-8 flex md:flex-col justify-center items-center gap-4">
+        <div className="flex md:flex-col items-center justify-center gap-4 md:items-center">
           <AboutSlideIndicator
             activeIndex={activeIndex}
             slideCount={slideCount}
@@ -105,13 +105,13 @@ export function AboutDesktopSlider({
 
           <nav
             aria-label="About section slides"
-            className="flex md:flex-col w-fit items-center gap-3 rounded-[2rem] border border-zinc-950/10 bg-white/90 p-2 md:px-3 md:py-2.5 shadow-[0_18px_60px_rgba(0,0,0,0.08)] backdrop-blur"
+            className="flex w-fit items-center gap-3 rounded-full border border-zinc-950/10 bg-zinc-50/90 p-2 shadow-surface-lg backdrop-blur md:flex-col md:px-3 md:py-2.5"
           >
             <button
               type="button"
               aria-label="Show previous about slide"
               onClick={onPrevious}
-              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-zinc-950/10 bg-white text-zinc-950 shadow-sm transition-colors duration-200 hover:bg-zinc-950 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2"
+              className="flex size-8 shrink-0 items-center justify-center rounded-full border border-zinc-950/10 bg-white text-zinc-950 shadow-control transition-colors duration-200 hover:bg-zinc-950 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2"
             >
               <ChevronUp aria-hidden="true" className="h-4 w-4 hidden md:block" />
               <ChevronLeft aria-hidden="true" className="h-4 w-4 md:hidden" />
@@ -128,7 +128,7 @@ export function AboutDesktopSlider({
               type="button"
               aria-label="Show next about slide"
               onClick={onNext}
-              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-zinc-950/10 bg-white text-zinc-950 shadow-sm transition-colors duration-200 hover:bg-zinc-950 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2"
+              className="flex size-8 shrink-0 items-center justify-center rounded-full border border-zinc-950/10 bg-white text-zinc-950 shadow-control transition-colors duration-200 hover:bg-zinc-950 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2"
             >
               <ChevronDown aria-hidden="true" className="h-4 w-4 hidden md:block" />
               <ChevronRight aria-hidden="true" className="h-4 w-4 md:hidden" />
