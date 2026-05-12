@@ -1,9 +1,9 @@
-import type { Ref } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp } from "lucide-react";
 
 import type { AboutSubsection } from "./types";
+import { AboutSlideDots } from "./about-slide-dots";
 import { AboutSlideIndicator } from "./about-slide-indicator";
-import { AboutSubsectionContent } from "./about-subsection-content";
 
 type AboutDesktopSliderProps = {
   activeIndex: number;
@@ -11,8 +11,11 @@ type AboutDesktopSliderProps = {
   direction: number;
   prefersReducedMotion: boolean;
   slideCount: number;
-  slideStartRef: Ref<HTMLDivElement>;
+  subsections: AboutSubsection[];
   titleId: string;
+  onSelect: (index: number) => void;
+  onPrevious: () => void;
+  onNext: () => void;
 };
 
 export function AboutDesktopSlider({
@@ -21,8 +24,11 @@ export function AboutDesktopSlider({
   direction,
   prefersReducedMotion,
   slideCount,
-  slideStartRef,
+  subsections,
   titleId,
+  onSelect,
+  onPrevious,
+  onNext,
 }: AboutDesktopSliderProps) {
   return (
     <motion.div
@@ -30,51 +36,105 @@ export function AboutDesktopSlider({
       whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-      className="mx-auto hidden w-full max-w-5xl md:block"
+      className="mx-auto w-full max-w-5xl"
     >
-      <div ref={slideStartRef} className="scroll-mt-6">
-        <AboutSlideIndicator
-          activeIndex={activeIndex}
-          slideCount={slideCount}
-          prefersReducedMotion={prefersReducedMotion}
-          className="mb-8 text-xs"
-        />
-      </div>
+      <div className="grid min-h-105 gap-8 md:min-h-130 md:grid-cols-[minmax(0,1fr)_auto] md:items-start md:gap-12 lg:gap-16">
+        <div className="relative min-h-78 md:min-h-96">
+          <AnimatePresence mode="wait" custom={direction}>
+            <motion.article
+              key={activeSubsection.id}
+              custom={direction}
+              variants={{
+                enter: (slideDirection: number) => ({
+                  opacity: 0,
+                  y: slideDirection > 0 ? 34 : -34,
+                }),
+                center: {
+                  opacity: 1,
+                  y: 0,
+                },
+                exit: (slideDirection: number) => ({
+                  opacity: 0,
+                  y: slideDirection > 0 ? -28 : 28,
+                }),
+              }}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{
+                duration: prefersReducedMotion ? 0 : 0.46,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="absolute inset-0 flex flex-col"
+            >
+              <h2
+                id={titleId}
+                className="max-w-4xl text-2xl font-semibold leading-[0.98] tracking-[-0.055em] text-zinc-950 sm:text-3xl lg:text-5xl"
+              >
+                {activeSubsection.title}
+              </h2>
 
-      <div className="relative min-h-105 md:min-h-130">
-        <AnimatePresence mode="wait" custom={direction}>
-          <motion.article
-            key={activeSubsection.id}
-            custom={direction}
-            variants={{
-              enter: (slideDirection: number) => ({
-                opacity: 0,
-                y: slideDirection > 0 ? 34 : -34,
-              }),
-              center: {
-                opacity: 1,
-                y: 0,
-              },
-              exit: (slideDirection: number) => ({
-                opacity: 0,
-                y: slideDirection > 0 ? -28 : 28,
-              }),
-            }}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={{
-              duration: prefersReducedMotion ? 0 : 0.46,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-            className="absolute inset-0 flex flex-col justify-center"
+              <p className="mt-6 max-w-3xl text-sm text-zinc-700 sm:mt-7 sm:text-base lg:text-lg">
+                {activeSubsection.body}
+              </p>
+
+              {activeSubsection.seo_keywords?.length ? (
+                <div className="mt-7 flex max-w-3xl flex-wrap gap-2 sm:mt-8">
+                  {activeSubsection.seo_keywords.map((keyword) => (
+                    <span
+                      key={`${activeSubsection.id}-${keyword}`}
+                      className="rounded-full border border-zinc-950/15 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-zinc-700 sm:text-xs sm:tracking-[0.18em]"
+                    >
+                      {keyword}
+                    </span>
+                  ))}
+                </div>
+              ) : null}
+            </motion.article>
+          </AnimatePresence>
+        </div>
+
+        <div className="mb-8 flex md:flex-col justify-center items-center gap-4">
+          <AboutSlideIndicator
+            activeIndex={activeIndex}
+            slideCount={slideCount}
+            prefersReducedMotion={prefersReducedMotion}
+            align="center"
+            hasBottomMargin={false}
+          />
+
+          <nav
+            aria-label="About section slides"
+            className="flex md:flex-col w-fit items-center gap-3 rounded-[2rem] border border-zinc-950/10 bg-white/90 p-2 md:px-3 md:py-2.5 shadow-[0_18px_60px_rgba(0,0,0,0.08)] backdrop-blur"
           >
-            <AboutSubsectionContent
-              subsection={activeSubsection}
-              titleId={titleId}
-            />
-          </motion.article>
-        </AnimatePresence>
+            <button
+              type="button"
+              aria-label="Show previous about slide"
+              onClick={onPrevious}
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-zinc-950/10 bg-white text-zinc-950 shadow-sm transition-colors duration-200 hover:bg-zinc-950 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2"
+            >
+              <ChevronUp aria-hidden="true" className="h-4 w-4 hidden md:block" />
+              <ChevronLeft aria-hidden="true" className="h-4 w-4 md:hidden" />
+            </button>
+            <div className="flex md:flex-col items-center gap-2">
+              <AboutSlideDots
+                activeIndex={activeIndex}
+                subsections={subsections}
+                onSelect={onSelect}
+                orientation="horizontal"
+              />
+            </div>
+            <button
+              type="button"
+              aria-label="Show next about slide"
+              onClick={onNext}
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-zinc-950/10 bg-white text-zinc-950 shadow-sm transition-colors duration-200 hover:bg-zinc-950 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2"
+            >
+              <ChevronDown aria-hidden="true" className="h-4 w-4 hidden md:block" />
+              <ChevronRight aria-hidden="true" className="h-4 w-4 md:hidden" />
+            </button>
+          </nav>
+        </div>
       </div>
     </motion.div>
   );

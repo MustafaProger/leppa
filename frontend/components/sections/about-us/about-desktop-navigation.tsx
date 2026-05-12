@@ -31,6 +31,7 @@ export function AboutDesktopNavigation({
             activeIndex={activeIndex}
             subsections={subsections}
             onSelect={onSelect}
+            orientation="vertical"
           />
         </motion.nav>
       ) : null}

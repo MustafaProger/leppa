@@ -7,18 +7,57 @@ import type { AboutSubsection } from "./types";
 type AboutSlideDotsProps = {
   activeIndex: number;
   subsections: AboutSubsection[];
-  onSelect: (index: number) => void;
+  onSelect?: (index: number) => void;
+  orientation?: "responsive" | "horizontal";
+  isInteractive?: boolean;
 };
 
 export function AboutSlideDots({
   activeIndex,
   subsections,
   onSelect,
+  orientation = "responsive",
+  isInteractive = true,
 }: AboutSlideDotsProps) {
   return (
     <>
       {subsections.map((subsection, index) => {
         const isActive = index === activeIndex;
+
+        const dot = (
+          <motion.span
+            layout
+            transition={{
+              type: "spring",
+              stiffness: 420,
+              damping: 32,
+            }}
+            className={cn(
+              "block rounded-full transition-colors duration-300",
+              isActive
+                ? cn(
+                    "h-2 w-8 md:h-8 md:w-2 bg-zinc-950",
+                    orientation === "responsive" && "md:h-2 md:w-8",
+                  )
+                : cn(
+                    "h-2 w-2 bg-zinc-950/25",
+                    isInteractive && "group-hover:bg-zinc-950/45",
+                  ),
+            )}
+          />
+        );
+
+        if (!isInteractive) {
+          return (
+            <span
+              key={subsection.id}
+              aria-current={isActive ? "step" : undefined}
+              className="flex h-auto w-auto items-center justify-center rounded-full py-1 md:h-auto md:w-auto"
+            >
+              {dot}
+            </span>
+          );
+        }
 
         return (
           <button
@@ -26,23 +65,10 @@ export function AboutSlideDots({
             type="button"
             aria-label={`Show about slide ${index + 1}`}
             aria-current={isActive ? "step" : undefined}
-            onClick={() => onSelect(index)}
+            onClick={() => onSelect?.(index)}
             className="group flex h-auto w-auto items-center justify-center rounded-full py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2 md:h-auto md:w-auto"
           >
-            <motion.span
-              layout
-              transition={{
-                type: "spring",
-                stiffness: 420,
-                damping: 32,
-              }}
-              className={cn(
-                "block rounded-full transition-colors duration-300",
-                isActive
-                  ? "h-2 w-8 bg-zinc-950 md:h-8 md:w-2"
-                  : "h-2 w-2 bg-zinc-950/25 group-hover:bg-zinc-950/45",
-              )}
-            />
+            {dot}
           </button>
         );
       })}
