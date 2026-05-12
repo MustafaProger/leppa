@@ -23,7 +23,7 @@ const Header = () => {
 
 	return (
 		<header className='fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-5xl px-4'>
-			<div className='bg-gray-100 rounded-full px-6 py-3 grid grid-cols-[100px_auto] md:grid-cols-[100px_auto_100px] items-center justify-between w-full'>
+			<div className='bg-gray-100 rounded-full px-6 py-2 grid grid-cols-[100px_auto] md:grid-cols-[100px_auto_100px] items-center justify-between w-full'>
 				{/* Logo on left */}
 				<Link
 					href='/'
@@ -40,7 +40,7 @@ const Header = () => {
 							<Link
 								key={item.href}
 								href={item.href}
-								className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+								className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-300 ${
 									isActive ? "bg-black text-white" : "bg-gray-200 text-gray-700"
 								}`}>
 								{item.label}
@@ -75,7 +75,7 @@ const Header = () => {
 						{/* Custom mobile menu */}
 						{/* Mobile menu */}
 						<div
-							className={`fixed top-16 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-5xl px-4 transition-all duration-300
+							className={`fixed top-14 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-5xl px-4 transition-all duration-300
     ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}>
 							<div className='bg-gray-100 rounded-[30px] px-6 py-3 menu-content transition-all duration-300'>
 								<nav className='flex flex-col space-y-2'>
