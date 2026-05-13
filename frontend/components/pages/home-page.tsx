@@ -3,7 +3,7 @@ import { Button } from "../ui/button";
 
 export function HomePage() {
   return (
-    <div className="relative flex min-h-dvh w-full flex-1 flex-col bg-white text-zinc-950">
+    <div className="relative flex min-h-dvh w-full flex-1 flex-col bg-canvas text-ink">
       <section className="relative flex min-h-dvh w-full flex-1 items-center justify-center overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -14,14 +14,14 @@ export function HomePage() {
           role="img"
           aria-label="Премиальная сантехника и ванная комната"
         />
-        <div className="absolute inset-0 bg-black/45" />
+        <div className="absolute inset-0 bg-scrim" />
 
-        <div className="relative z-20 max-w-5xl px-4 sm:px-6 text-center text-white">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-normal tracking-tight text-white mb-4 md:mb-6">
+        <div className="relative z-20 max-w-5xl px-4 sm:px-6 text-center text-on-dark">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-normal tracking-tight text-on-dark mb-4 md:mb-6">
             Leppa & WenSton
           </h1>
 
-          <p className="mx-auto mb-8 max-w-2xl text-base sm:text-lg md:text-xl font-light text-white">
+          <p className="mx-auto mb-8 max-w-2xl text-base sm:text-lg md:text-xl font-light text-on-dark">
             Премиальная сантехника и архитектура ванной комнаты: выразительные
             материалы, точная геометрия и эстетика спокойной роскоши.
           </p>

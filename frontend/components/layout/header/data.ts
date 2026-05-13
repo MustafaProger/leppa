@@ -1,6 +1,6 @@
 export const NAV_ITEMS = [
+	{ label: "Главная", href: "/" },
 	{ label: "Каталог", href: "/catalog" },
-	{ label: "Хиты", href: "/hits" },
-	{ label: "Новинки", href: "/new" },
+	{ label: "Контакты", href: "/contacts" },
 	{ label: "Отзывы", href: "/reviews" },
 ];

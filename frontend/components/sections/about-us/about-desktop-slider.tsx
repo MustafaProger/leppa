@@ -72,11 +72,11 @@ export function AboutDesktopSlider({
 							className='col-start-1 row-start-1 flex min-w-0 flex-col'>
 							<h2
 								id={titleId}
-								className='max-w-4xl text-2xl font-semibold leading-[0.98] tracking-[-0.055em] text-zinc-950 sm:text-3xl lg:text-5xl'>
+								className='max-w-4xl text-2xl font-semibold leading-[0.98] tracking-[-0.055em] text-ink sm:text-3xl lg:text-5xl'>
 								{activeSubsection.title}
 							</h2>
 
-							<p className='mt-6 max-w-3xl text-sm text-zinc-700 sm:mt-7 sm:text-base lg:text-lg'>
+							<p className='mt-6 max-w-3xl text-sm text-ink-muted sm:mt-7 sm:text-base lg:text-lg'>
 								{activeSubsection.body}
 							</p>
 
@@ -85,7 +85,7 @@ export function AboutDesktopSlider({
 									{activeSubsection.seo_keywords.map((keyword) => (
 										<span
 											key={`${activeSubsection.id}-${keyword}`}
-											className='rounded-full border border-zinc-950/15 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-zinc-700 sm:text-xs sm:tracking-[0.18em]'>
+											className='rounded-full border border-hairline-strong px-3 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-ink-muted sm:text-xs sm:tracking-[0.18em]'>
 											{keyword}
 										</span>
 									))}
@@ -106,12 +106,12 @@ export function AboutDesktopSlider({
 
 					<nav
 						aria-label='About section slides'
-						className='flex w-fit items-center gap-3 rounded-full border border-zinc-950/10 bg-zinc-50/90 p-2 shadow-surface-lg backdrop-blur md:flex-col md:px-3 md:py-2.5'>
+						className='flex w-fit items-center gap-3 rounded-full border border-hairline bg-frost p-2 shadow-surface-lg backdrop-blur md:flex-col md:px-3 md:py-2.5'>
 						<button
 							type='button'
 							aria-label='Show previous about slide'
 							onClick={onPrevious}
-							className='flex size-8 shrink-0 items-center justify-center rounded-full border border-zinc-950/10 bg-white text-zinc-950 shadow-control transition-colors duration-200 hover:bg-zinc-950 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2'>
+							className='flex size-8 shrink-0 items-center justify-center rounded-full border border-hairline bg-canvas text-ink shadow-control transition-colors duration-200 hover:bg-ink hover:text-on-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2'>
 							<ChevronUp
 								aria-hidden='true'
 								className='h-4 w-4 hidden md:block'
@@ -133,7 +133,7 @@ export function AboutDesktopSlider({
 							type='button'
 							aria-label='Show next about slide'
 							onClick={onNext}
-							className='flex size-8 shrink-0 items-center justify-center rounded-full border border-zinc-950/10 bg-white text-zinc-950 shadow-control transition-colors duration-200 hover:bg-zinc-950 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2'>
+							className='flex size-8 shrink-0 items-center justify-center rounded-full border border-hairline bg-canvas text-ink shadow-control transition-colors duration-200 hover:bg-ink hover:text-on-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2'>
 							<ChevronDown
 								aria-hidden='true'
 								className='h-4 w-4 hidden md:block'

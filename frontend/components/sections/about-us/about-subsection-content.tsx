@@ -13,12 +13,12 @@ export function AboutSubsectionContent({
     <>
       <h2
         id={titleId}
-        className="max-w-4xl text-2xl font-semibold leading-[0.98] tracking-[-0.055em] text-zinc-950 sm:text-3xl lg:text-5xl"
+        className="max-w-4xl text-2xl font-semibold leading-[0.98] tracking-[-0.055em] text-ink sm:text-3xl lg:text-5xl"
       >
         {subsection.title}
       </h2>
 
-      <p className="mt-6 max-w-3xl text-sm text-zinc-700 sm:mt-7 sm:text-base lg:text-lg">
+      <p className="mt-6 max-w-3xl text-sm text-ink-muted sm:mt-7 sm:text-base lg:text-lg">
         {subsection.body}
       </p>
 
@@ -27,7 +27,7 @@ export function AboutSubsectionContent({
           {subsection.seo_keywords.map((keyword) => (
             <span
               key={`${subsection.id}-${keyword}`}
-              className="rounded-full border border-zinc-950/15 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-zinc-700 sm:text-xs sm:tracking-[0.18em]"
+              className="rounded-full border border-hairline-strong px-3 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-ink-muted sm:text-xs sm:tracking-[0.18em]"
             >
               {keyword}
             </span>
