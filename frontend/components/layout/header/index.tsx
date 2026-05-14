@@ -72,7 +72,7 @@ const Header = () => {
 				<Link
 					href='/'
 					className='flex shrink-0 items-center text-lg font-bold text-ink transition-opacity hover:opacity-85'
-					aria-label='LEPA&WANNISTON — на главную'
+					aria-label='Leppa & WenSton — на главную'
 					onClick={handleNavClick}>
 					L&W
 				</Link>

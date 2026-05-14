@@ -4,9 +4,8 @@ import { Header } from "@/components/layout/header";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
-	title: "Lepa and Wanniston",
-	description:
-		"Premium minimal storefront for modern bathroom and kitchen products.",
+	title: "Leppa & WenSton",
+	description: "Премиальная витрина для современных товаров для ванной комнаты",
 };
 
 export const viewport: Viewport = {
@@ -22,16 +21,14 @@ export default function RootLayout({
 }>) {
 	return (
 		<html
-			lang="ru"
-			className={cn("h-full min-h-dvh scroll-smooth", "font-sans")}
-		>
+			lang='ru'
+			className={cn("h-full min-h-dvh scroll-smooth", "font-sans")}>
 			<body
 				className={cn(
 					"flex min-h-dvh min-w-0 flex-col bg-background text-foreground antialiased",
-				)}
-			>
+				)}>
 				<Header />
-				<main className="flex min-h-dvh flex-1 flex-col">{children}</main>
+				<main className='flex min-h-dvh flex-1 flex-col'>{children}</main>
 			</body>
 		</html>
 	);
