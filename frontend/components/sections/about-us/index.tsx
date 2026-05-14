@@ -5,10 +5,20 @@ import { useReducedMotion } from "framer-motion";
 
 import { AboutDesktopSlider } from "./about-desktop-slider";
 import { aboutSubsections } from "./data";
+
+const DESKTOP_MEDIA_QUERY = "(min-width: 768px)";
+const SLIDE_SCROLL_TOP_OFFSET = 50;
 const ABOUT_TITLE_ID = "about-title";
 
 const clampIndex = (value: number, maxIndex: number) => {
   return Math.min(Math.max(value, 0), Math.max(maxIndex, 0));
+};
+
+const isDesktopViewport = () => {
+  return (
+    typeof window !== "undefined" &&
+    window.matchMedia(DESKTOP_MEDIA_QUERY).matches
+  );
 };
 
 export function AboutUsSection() {
@@ -28,20 +38,62 @@ export function AboutUsSection() {
     activeIndexRef.current = activeIndex;
   }, [activeIndex]);
 
+  const scrollMobileSlideStartIntoView = useCallback(
+    (behavior: ScrollBehavior = prefersReducedMotion ? "auto" : "smooth") => {
+      const section = sectionRef.current;
+
+      if (!section || typeof window === "undefined" || isDesktopViewport()) {
+        return;
+      }
+
+      const targetScrollTop =
+        section.getBoundingClientRect().top +
+        window.scrollY -
+        SLIDE_SCROLL_TOP_OFFSET;
+
+      window.scrollTo({
+        top: Math.max(targetScrollTop, 0),
+        behavior,
+      });
+    },
+    [prefersReducedMotion],
+  );
+
+  const queueMobileSlideStartScroll = useCallback(
+    (behavior: ScrollBehavior = prefersReducedMotion ? "auto" : "smooth") => {
+      if (typeof window === "undefined" || isDesktopViewport()) {
+        return;
+      }
+
+      if (mobileSlideScrollFrameRef.current !== null) {
+        window.cancelAnimationFrame(mobileSlideScrollFrameRef.current);
+      }
+
+      mobileSlideScrollFrameRef.current = window.requestAnimationFrame(() => {
+        mobileSlideScrollFrameRef.current = null;
+        scrollMobileSlideStartIntoView(behavior);
+      });
+    },
+    [prefersReducedMotion, scrollMobileSlideStartIntoView],
+  );
+
   const selectDesktopSlide = useCallback(
     (nextIndex: number) => {
       const safeIndex = clampIndex(nextIndex, slideCount - 1);
       const currentIndex = activeIndexRef.current;
+      const behavior: ScrollBehavior = prefersReducedMotion ? "auto" : "smooth";
 
       if (safeIndex === currentIndex) {
+        queueMobileSlideStartScroll(behavior);
         return;
       }
 
       setDirection(safeIndex > currentIndex ? 1 : -1);
       activeIndexRef.current = safeIndex;
       setActiveIndex(safeIndex);
+      queueMobileSlideStartScroll(behavior);
     },
-    [slideCount],
+    [prefersReducedMotion, queueMobileSlideStartScroll, slideCount],
   );
 
   const navigateDesktopSlide = useCallback(
@@ -49,12 +101,14 @@ export function AboutUsSection() {
       const currentIndex = activeIndexRef.current;
       const nextIndex =
         (currentIndex + step + slideCount) % Math.max(slideCount, 1);
+      const behavior: ScrollBehavior = prefersReducedMotion ? "auto" : "smooth";
 
       setDirection(step);
       activeIndexRef.current = nextIndex;
       setActiveIndex(nextIndex);
+      queueMobileSlideStartScroll(behavior);
     },
-    [slideCount],
+    [prefersReducedMotion, queueMobileSlideStartScroll, slideCount],
   );
 
   useEffect(() => {
