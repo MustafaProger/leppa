@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { AboutUsSection } from "../sections/about-us";
+import { WhyChooseUsSection } from "../sections/why-choose-us";
 import { Button } from "../ui/button";
 import Link from "next/link";
 
@@ -19,7 +20,7 @@ export function HomePage() {
 
 				<div className='relative z-20 max-w-5xl px-4 sm:px-6 text-center text-on-dark'>
 					<h1 className='text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-normal tracking-tight text-on-dark mb-4 md:mb-6'>
-						Leppa & WenSton
+						Leppa &amp; WenSton
 					</h1>
 
 					<p className='mx-auto mb-8 max-w-2xl text-base sm:text-lg md:text-xl font-light text-on-dark'>
@@ -38,6 +39,7 @@ export function HomePage() {
 				</div>
 			</section>
 			<AboutUsSection />
+			<WhyChooseUsSection />
 		</div>
 	);
 }

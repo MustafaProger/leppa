@@ -37,6 +37,7 @@
 
     /* Core surfaces (shadcn-aligned, used by layout + primitives) */
     --background: rgba(255, 255, 255, 1);
+    --background-2: rgb(253, 252, 253, 1);
     --foreground: rgba(22, 22, 23, 1);
 
     --primary: rgba(22, 22, 23, 1);
@@ -92,6 +93,7 @@
 
 @theme inline {
     --color-background: var(--background);
+    --color-background-2: var(--background-2);
     --color-foreground: var(--foreground);
 
     --font-sans: var(--app-font-sans);
@@ -242,6 +244,31 @@ a {
 a:hover,
 button:hover {
     opacity: 0.82;
+}
+
+@layer utilities {
+    .hover-lift-card {
+        transition:
+            transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
+            box-shadow 240ms cubic-bezier(0.22, 1, 0.36, 1);
+        will-change: transform;
+    }
+
+    .hover-lift-card:hover {
+        box-shadow: var(--shadow-surface-md);
+        transform: translateY(-4px);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .hover-lift-card {
+            transition-duration: 1ms;
+            will-change: auto;
+        }
+
+        .hover-lift-card:hover {
+            transform: none;
+        }
+    }
 }
 
 /* Images */
