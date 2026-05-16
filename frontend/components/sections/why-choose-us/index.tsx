@@ -2,13 +2,7 @@ import type { WhyChooseUsItem } from "./data";
 
 import { whyChooseUsItems } from "./data";
 
-const WHY_CHOOSE_US_TITLE_ID = "why-choose-us-title";
-
-function WhyChooseUsCard({
-	title,
-	description,
-	icon: Icon,
-}: WhyChooseUsItem) {
+function WhyChooseUsCard({ title, description, icon: Icon }: WhyChooseUsItem) {
 	return (
 		<article className='hover-lift-card flex h-full min-h-[260px] flex-col rounded-md border border-hairline bg-canvas p-5 shadow-control sm:p-6'>
 			<div className='mt-4 w-full flex items-center justify-center'>
@@ -33,13 +27,11 @@ export function WhyChooseUsSection() {
 	return (
 		<section
 			id='why-choose-us'
-			aria-labelledby={WHY_CHOOSE_US_TITLE_ID}
-			className='bg-background-2 text-ink'>
+			aria-labelledby='why-choose-us-title'
+			className='bg-frost text-ink'>
 			<div className='mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-20 lg:px-14 lg:py-24'>
 				<div className='mx-auto max-w-3xl text-center'>
-					<h2
-						id={WHY_CHOOSE_US_TITLE_ID}
-						className='text-3xl font-semibold text-ink sm:text-4xl lg:text-6xl'>
+					<h2 className='text-3xl font-semibold text-ink sm:text-4xl lg:text-6xl'>
 						Почему выбирают нас
 					</h2>
 					<p className='mx-auto mt-4 max-w-2xl text-sm text-ink-muted sm:text-base lg:text-lg'>
