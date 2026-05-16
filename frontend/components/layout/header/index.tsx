@@ -7,9 +7,6 @@ import Link from "next/link";
 
 import { NAV_ITEMS } from "./data";
 
-const BODY_OVERLAY_CLASS = "overlay";
-const DESKTOP_MEDIA_QUERY = "(min-width: 768px)";
-
 const Header = () => {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const pathname = usePathname();
@@ -25,15 +22,15 @@ const Header = () => {
 	};
 
 	useEffect(() => {
-		document.body.classList.toggle(BODY_OVERLAY_CLASS, isOpen);
+		document.body.classList.toggle("overlay", isOpen);
 
 		return () => {
-			document.body.classList.remove(BODY_OVERLAY_CLASS);
+			document.body.classList.remove("overlay");
 		};
 	}, [isOpen]);
 
 	useEffect(() => {
-		const mediaQuery = window.matchMedia(DESKTOP_MEDIA_QUERY);
+		const mediaQuery = window.matchMedia("(min-width: 768px)");
 		const handleDesktopChange = (event: MediaQueryListEvent) => {
 			if (event.matches) {
 				setIsOpen(false);
